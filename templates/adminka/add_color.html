@@ -1,0 +1,98 @@
+{% extends "base/base_admin.html" %}
+{% load static %}
+
+{% block title %}
+Dashboard
+{% endblock title%}
+
+
+{% block content %}
+        <div class="breadcrumbs">
+            <div class="breadcrumbs-inner">
+                <div class="row m-0">
+                    <div class="col-sm-4">
+                        <div class="page-header float-left">
+                            <div class="page-title">
+                                <h1>Dashboard</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="page-header float-right">
+                            <div class="page-title">
+                                <ol class="breadcrumb text-right">
+                                    <li><a href="#">Dashboard</a></li>
+                                    <li><a href="#">Forms</a></li>
+                                    <li class="active">Basic</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <div class="content">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">
+                            {{ message|safe }}
+
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+            <div class="animated fadeIn">
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Adding</strong> color
+                            </div>
+
+                            <div class="card-body card-block">
+                                <!-- <div class="alert alert-success" role="alert">
+                                    Category is successfully added
+                                </div>   -->
+
+                                <form action="{% url 'createColor'%}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                    {% csrf_token %}
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label class=" form-control-label">User</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <p class="form-control-static">{{user.username}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Color name</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" required  id="text-input" name="color_name" placeholder="color name" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                    </div>
+      
+                                  
+                              
+                                    <div style="text-align: end;">
+                                        <button type="submit" class="btn btn-outline-dark btn-lg">
+                                            <h4>Save</h4>
+                                        </button>
+                                        <button type="reset" class="btn btn-outline-danger btn-lg">
+                                            <h4>Reset</h4>
+                                        </button>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+   
+                    </div>
+
+            </div>
+
+
+        </div><!-- .animated -->
+    </div><!-- .content -->
+
+{% endblock content%}

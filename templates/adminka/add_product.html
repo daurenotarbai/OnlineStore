@@ -1,0 +1,166 @@
+{% extends "base/base_admin.html" %}
+{% load static %}
+
+{% block title %}
+Dashboard
+{% endblock title%}
+
+
+{% block content %}
+
+        <div class="breadcrumbs">
+            <div class="breadcrumbs-inner">
+                <div class="row m-0">
+                    <div class="col-sm-4">
+                        <div class="page-header float-left">
+                            <div class="page-title">
+                                <h1>Dashboard</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="page-header float-right">
+                            <div class="page-title">
+                                <ol class="breadcrumb text-right">
+                                    <li><a href="#">Dashboard</a></li>
+                                    <li><a href="#">Forms</a></li>
+                                    <li class="active">Basic</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <div class="content">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">
+                            {{ message|safe }}
+
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+            <div class="animated fadeIn">
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Adding</strong> product
+                            </div>
+
+                            <div class="card-body card-block">
+                                <!-- <div class="alert alert-success" role="alert">
+                                    Category is successfully added
+                                </div>   -->
+
+                                <form action="{% url 'createProduct'%}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                    {% csrf_token %}
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label class=" form-control-label">User</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <p class="form-control-static">{{user.username}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product name</label></div>
+                                        <div class="col-12 col-md-9"><input required type="text" id="text-input" name="product_name" placeholder="product name" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product price</label></div>
+                                        <div class="col-12 col-md-9"><input required type="number" id="text-input" name="product_price" placeholder="price" class="form-control"><small class="form-text text-muted">currency: tenge</small></div>
+                            
+                                    </div>
+                         
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="selectLg" class=" form-control-label">Category</label></div>
+                                        <div class="col-12 col-md-9">
+                                            <select name="product_category" id="selectLg" class="form-control-md form-control">
+                                                {%for el in category%}
+                                                <option value="{{el.CategoryName}}">{{el.CategoryName}}</option>
+                                                {%endfor%}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row form-group">
+                                        <div class="col col-md-3"><label for="disabled-input" class=" form-control-label">Disabled Input</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="disabled-input" name="disabled-input" placeholder="Disabled" disabled="" class="form-control"></div>
+                                    </div> -->
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
+                                        <div class="col-12 col-md-9"><textarea required name="product_description" id="textarea-input" rows="9" placeholder="Product description..." class="form-control"></textarea></div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Short description</label></div>
+                                        <div class="col-12 col-md-9"><textarea required name="product_short_description" id="textarea-input" rows="9" placeholder="Product short description..." class="form-control"></textarea></div>
+                                    </div>
+                                    <!-- <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product materials</label></div>
+                                        <div class="col-12 col-md-9"><input required type="text" id="text-input" name="product_material" placeholder="product materials" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                    </div> -->
+                                    <!-- <div class="row form-group">
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Product weight</label></div>
+                                        <div class="col-12 col-md-9"><input required type="number" id="text-input" name="product_weight" placeholder="product weight" class="form-control"><small class="form-text text-muted">weight: kg</small></div>
+                            
+                                    </div> -->
+
+                             
+
+                              
+                             
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="multiple-select" class=" form-control-label">Size product</label></div>
+                                        <div class="col col-md-9">
+                                            <select name="product_size" id="multiple-select" multiple="" class="form-control">
+                                                {%for el in size_pr%}
+                                                <option value="{{el.size_name}}">{{el.size_name}}</option>
+                                                {%endfor%}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="multiple-select" class=" form-control-label">Color product</label></div>
+                                        <div class="col col-md-9">
+                                            <select name="product_color" id="multiple-select" multiple="" class="form-control">
+                                                {%for el in color_pr%}
+                                                <option value="{{el.color_name}}">{{el.color_name}}</option>
+                                                {%endfor%}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                            
+                                  
+                         
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">Upload image</label></div>
+                                        <div class="col-12 col-md-9"><input type="file" id="file-input" name="product_img" class="form-control-file"></div>
+                                    </div>
+                                    <div style="text-align: end;">
+                                        <button type="submit" class="btn btn-outline-dark btn-lg">
+                                            <h4>Save</h4>
+                                        </button>
+                                        <button type="reset" class="btn btn-outline-danger btn-lg">
+                                            <h4>Reset</h4>
+                                        </button>
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+   
+                    </div>
+
+            </div>
+
+
+        </div><!-- .animated -->
+    </div><!-- .content -->
+
+{% endblock content %}

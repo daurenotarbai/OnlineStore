@@ -1,0 +1,40 @@
+{% extends "mainApp/base.html" %}
+{% load static %}
+
+{% block title %}
+extrapage
+{% endblock title%}
+
+
+{% block content %}
+
+<form method="POST" action="create/">
+  <br>
+<br>
+  {% csrf_token %}
+  <p>
+      <label>Введите имя Компания</label><br>
+
+      <input type="text" name="name" />
+  </p>
+  <input type="submit" value="Сохранить" >
+  <BR></BR>
+  <br>
+</form>
+{% if company.count > 0 %}
+<h2>Список Company</h2>
+<br>
+<br>
+<table>
+  <tr><th>Id</th><th>Имя Company</th></tr>
+  {% for person in company %}
+  <tr><td>{{ person.id }}</td>
+    <td>{{ person.name }}</td>
+    <td><a href="edit/{{person.id}}">Изменить</a></td>
+    <td><a href="delete/{{person.id}}">Удалить</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{%endblock content%}

@@ -1,0 +1,296 @@
+{% extends "base/base_admin.html" %}
+{% load static %}
+
+{% block title %}
+Dashboard
+{% endblock title%}
+
+
+{% block content %}
+        <!-- Content -->
+        <div class="content">
+            <!-- Animated -->
+            <div class="animated fadeIn">
+
+
+                <!-- Orders -->
+                <div class="orders">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="box-title">Last orders </h4>
+                                </div>
+                                <div class="card-body--">
+                                    <div class="table-stats order-table ov-h">
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial">#</th>
+                                                    <th class="avatar">Avatar</th>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Total</th>
+                                                    <th>Date time</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {%for order in orders%}
+                                                <tr>
+                                                    <td class="serial">{{forloop.counter}}.</td>
+                                                    <td class="avatar">
+                                                        <div class="round-img">
+                                                            <a href="#"><img class="rounded-circle" src="{% static 'images/avatar-01.jpg'%}" alt=""></a>
+                                                        </div>
+                                                    </td>
+                                                    <td> #000{{order.id}} </td>
+                                                    <td>  <span class="name">{{order.customer_name}}</span> </td>
+                                                    <td> <span class="product">{{order.total_price}}</span> </td>
+                                                    <td><span class="count">{{order.created_time}}</span></td>
+                                                    <td>
+                                                        <span class="badge badge-complete">Complete</span>
+                                                    </td>
+                                                </tr>
+                                                 {%endfor%}
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- /.table-stats -->
+                                </div>
+                            </div> <!-- /.card -->
+                        </div>  <!-- /.col-lg-8 -->
+
+                    </div>
+                </div>
+                <!-- /.orders -->
+                <!-- To Do and Live Chat -->
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title box-title">To Do List</h4>
+                                <div class="card-content">
+                                    <div class="todo-list">
+                                        <div class="tdl-holder">
+                                            <div class="tdl-content">
+                                                <ul>
+                                                    {%for task in done_tasks%}
+                                                       
+                                                    <li>
+                                                        <label style="background-color: #bff9bf;">
+                                                        <input  type="checkbox"><i class="check-box"></i><span>{{task.task}}</span>
+                                                        <a href='/administration/deleting/task/{{task.id}}' class="fa fa-trash"></a><a href='#' class="fa fa-pencil"></a>
+                                                        </label>
+                                                    </li>
+                                                   
+                                                    {%endfor%}
+                                                    {%for task in tasks%}
+                                                       
+                                                        <li>
+                                                            <label>
+                                                            <input type="checkbox"><i class="check-box"></i><span>{{task.task}}</span>
+                                                            <a href='/administration/deleting/task/{{task.id}}' class="fa fa-trash"></a><a href='#' class="fa fa-pencil"></a><a href="/administration/done/task/{{task.id}}" class="fa fa-check"></a>
+                                                            </label>
+                                                        </li>
+                                                       
+                                                    {%endfor%}
+                                                </ul>
+
+                                            </div>
+     
+                                        </div>
+                                        <form action="{% url 'adding_task' %}" method="POST">
+                                            {%csrf_token%}
+                                            <div class="input-group mb-3">
+                                                <input type="text"name="adding_task" class="form-control" placeholder="Your task" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                <div class="input-group-append">
+                                                <button class="btn btn-primary" style="height: 38px;" type="submit">Add</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div> <!-- /.todo-list -->
+                                </div>
+                            </div> <!-- /.card-body -->
+                        </div><!-- /.card -->
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title box-title">Live Chat</h4>
+                                <div class="card-content">
+                                    <div class="messenger-box">
+                                        <div class="messages-block">
+                                            <ul>
+
+                                                {%for msg in messages%}
+                                                <div class="for-one-message">
+                                                    <li>
+                                                        <div class="msg-{%if msg.user == request.user%}sent{%else%}received{%endif%} msg-container">
+    
+                                                            <div class="msg-box">
+                                                                <div class="avatar">
+                                                                    <img width="40px" height="40px" src="{%if msg.user == request.user%}{%static 'images/1.jpg'%}{%else%}{%static 'images/avatar-01.jpg'%}{%endif%}" alt="">
+                                                                    <div class="send-time">11.11 am</div>
+                                                                 </div>
+                                                                <div class="inner-box">
+                                                                    <div class="name">
+                                                                        {{msg.user.username}}
+                                                                    </div>
+                                                                    <div class="meg">
+                                                                        {{msg.message}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- /.msg-sent -->
+                                                    </li>
+                                                </div>  
+                                                {%endfor%}
+                                            </ul>
+                                        </div>
+
+                                        <form action="{%url 'send_message'%}" method="POST">
+                                            {%csrf_token%}
+                                            <div class="send-mgs">
+                                                <div class="yourmsg">
+                                                    <input class="form-control " name="send_mes_livechat_from_assistant" type="text">
+                                                </div>
+                                                <button class="btn btn-livechat msg-send-btn">
+                                                    <i class="pe-7s-paper-plane"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div><!-- /.messenger-box -->
+                                </div>
+                            </div> <!-- /.card-body -->
+                        </div><!-- /.card -->
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title box-title">Live Chat</h4>
+                                <div class="card-content">
+                                    <div class="messenger-box">
+                                        <div class="messages-block">
+                                            <ul>
+                                                <h4 style="text-align: center;">No client yet</h4>
+                                                {%for msg in messagesss%}
+                                                <div class="for-one-message">
+                                                    <li>
+                                                        <div class="msg-{%if msg.user == request.user%}sent{%else%}received{%endif%} msg-container">
+    
+                                                            <div class="msg-box">
+                                                                <div class="avatar">
+                                                                    <img width="40px" height="40px" src="{%if msg.user == request.user%}{%static 'images/1.jpg'%}{%else%}{%static 'images/avatar-01.jpg'%}{%endif%}" alt="">
+                                                                    <div class="send-time">11.11 am</div>
+                                                                 </div>
+                                                                <div class="inner-box">
+                                                                    <div class="name">
+                                                                        {{msg.user.username}}
+                                                                    </div>
+                                                                    <div class="meg">
+                                                                        {{msg.message}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- /.msg-sent -->
+                                                    </li>
+                                                </div>  
+                                                {%endfor%}
+                                            </ul>
+                                        </div>
+
+                                        <form action="{%url 'send_message'%}" method="POST">
+                                            {%csrf_token%}
+                                            <div class="send-mgs">
+                                                <div class="yourmsg">
+                                                    <input class="form-control " disabled name="send_mes_livechat_from_assistant" type="text">
+                                                </div>
+                                                <button class="btn btn-livechat msg-send-btn">
+                                                    <i class="pe-7s-paper-plane"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div><!-- /.messenger-box -->
+                                </div>
+                            </div> <!-- /.card-body -->
+                        </div><!-- /.card -->
+                    </div>
+                </div>
+                <!-- /To Do and Live Chat -->
+ 
+        
+
+
+            </div>
+            <!-- .animated -->
+        </div>
+        <!-- /.content -->
+{% endblock content%}
+
+{% block scripts %}
+    <script>
+        jQuery(document).ready(function($) {
+            "use strict";
+
+            // Pie chart flotPie1
+            var piedata = [
+                { label: "Desktop visits", data: [[1,32]], color: '#5c6bc0'},
+                { label: "Tab visits", data: [[1,33]], color: '#ef5350'},
+                { label: "Mobile visits", data: [[1,35]], color: '#66bb6a'}
+            ];
+
+            $.plot('#flotPie1', piedata, {
+                series: {
+                    pie: {
+                        show: true,
+                        radius: 1,
+                        innerRadius: 0.65,
+                        label: {
+                            show: true,
+                            radius: 2/3,
+                            threshold: 1
+                        },
+                        stroke: {
+                            width: 0
+                        }
+                    }
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true
+                }
+            });
+            // Pie chart flotPie1  End
+        
+        });
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        var stackedLine = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['March','Apr','May','June','July','Aug','Sep','Oct'],
+                datasets: [{ 
+                    data: [{%for item in users%}{{item.id}},{%endfor%}],
+                    label: "Customers",
+                     borderColor: "#fff",
+                     borderWidth: 1,
+                     fill: false
+                }, 
+                ]
+            },
+            options: {
+                title: {
+                display: false,
+             
+
+                }
+            }
+    });
+
+    </script>
+   
+{% endblock scripts %}

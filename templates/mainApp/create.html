@@ -1,0 +1,65 @@
+{% extends "mainApp/base.html" %}
+{% load static %}
+
+{% block title %}
+Add product
+{% endblock title%}
+
+
+{% block content %}
+<br>
+<br>
+<br>
+<form method="POST" action="create/" enctype="multipart/form-data">
+  <br>
+<br>
+  {% csrf_token %}
+  <p>
+      <label>Введите имя товара</label>
+      <input style="border-color: blue;border:solid;" type="text" name="name" />
+  </p>
+  <p>
+      <label>Введите цена товара</label>
+      <input style="border-color: blue; border:solid;" type="number" name="price"  />
+  </p>
+
+    <label>Введите категория товара</label>
+    
+  <p><select name="category">
+    {% for element in category %}
+    <option>{{element.CategoryName}}</option>
+    {% endfor %}
+    </select>
+  </p>
+
+  <label>Введите размер товара</label>
+  <p><select name="size_pr">
+    {% for element in size_pr %}
+    <option>{{element.size}}</option>
+    {% endfor %}
+    </select>
+  </p>
+  
+  <p>
+    <label>Загрузите фото</label>
+    <input style="border:solid;" type="file" name="photo" multiple accept="image/jpeg,image/png" />
+</p>
+  <input name="submit" type="submit" value="Сохранить" >
+</form>
+
+
+<!-- 
+{% if product.count > 0 %}
+    <h2>Список пользователей</h2>
+    <table>
+        <tr><th>Id</th><th>Имя</th><th>Возраст</th></tr>
+        {% for element in product %}
+        <tr><td>{{ element.id }}</td><td>{{ element.name }}</td><td>{{ element.price }}</td></tr>
+        {% endfor %}
+    </table>
+    {% endif %} -->
+
+
+{%endblock content%}
+
+

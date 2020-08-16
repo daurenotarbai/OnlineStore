@@ -1,0 +1,30 @@
+{% extends "mainApp/base.html" %}
+{% load static %}
+
+{% block title %}
+extrapage
+{% endblock title%}
+
+
+{% block content %}
+
+<form method="POST">
+  <br>
+<br>
+  {% csrf_token %}
+  <p>
+      <label>Введите имя товара</label><br>
+      <input type="text" name="name" value="{{product.name}}"/>
+  </p>
+  <p>
+      <label>Введите цена товара</label><br>
+      <input type="number" name="price" value="{{product.price}}" />
+  </p>
+  <p>
+    <label>Введите имя категории</label><br>
+    <input type="text" name="category" value="{{product.category}}" />
+  </p>
+  <input type="submit" value="Сохранить" >
+</form>
+
+{%endblock content%}
