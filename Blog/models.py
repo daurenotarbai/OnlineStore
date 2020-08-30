@@ -25,7 +25,7 @@ class Blog(models.Model):
   blog_img = models.ImageField(upload_to='imagesDB')
   blog_admin = models.ForeignKey(User,null = True,on_delete= models.CASCADE)
   blog_tags = models.ManyToManyField(BlogTags)
-  comment_number = models.IntegerField(null=True,default=0)
+  # comment_number = models.IntegerField(null=True,default=0)
   is_active = models.BooleanField(default=True)
   created_time = models.DateTimeField(auto_now_add=True,auto_now=False)
   updated_time = models.DateTimeField(auto_now_add=False,auto_now=True)
@@ -60,11 +60,11 @@ class CommentBlog(models.Model):
     def __str__(self):
         return '%s %s' % (self.id, self.user)
 
-def comment_number_post_save(sender, instance, created, **kwargs):
-    blog_contents = Blog.objects.filter(is_active=True)
-    for item in blog_contents:
-      number_comment = CommentBlog.objects.filter(article__id = item.id).count()
-      item.comment_number = number_comment
-      item.save(force_update=True)
+# def comment_number_post_save(sender, instance, created, **kwargs):
+    # blog_contents = Blog.objects.filter(is_active=True)
+    # for item in blog_contents:
+      # number_comment = CommentBlog.objects.filter(article__id = item.id).count()
+      # item.comment_number = number_comment
+      # item.save(force_update=True)
 
-post_save.connect(comment_number_post_save, sender=CommentBlog)
+# post_save.connect(comment_number_post_save, sender=CommentBlog)

@@ -8,7 +8,7 @@ def getting_basket_info(request):
     if request.user.is_authenticated:
 
         room = RoomChat.objects.filter(Q(assistant=request.user) | Q(customer=request.user))
-        messagess = LiveChatView.objects.filter(room = room[0])
+        # messagess = LiveChatView.objects.filter(room = room[0])
         
         product_in_basket_for_total_price = ProductsInBasket.objects.filter(user=user)
         products_in_minibasket = ProductsInBasket.objects.filter(user=user,is_active = True)

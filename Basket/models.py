@@ -41,8 +41,7 @@ def best_seller_product_post_save(sender, instance, created, **kwargs):
     instance.product.ProductName.best_seller = total_number_of_this_product_in_order
     print("total_number_of_this_product_in_order",total_number_of_this_product_in_order)
     instance.product.ProductName.save(force_update=True)
-
-
+    
 post_save.connect(best_seller_product_post_save, sender=ProductsInBasket)
 
 

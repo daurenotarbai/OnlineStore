@@ -33,7 +33,7 @@ def basket_adding(request):
     #update(is_active = False)
   else:
 
-    pr_in_basket, created = ProductsInBasket.objects.get_or_create(user=user,product_id = product_id, is_active = True,size_pr=product_size,color_pr=product_color, defaults ={"nmb" : nmb})
+    pr_in_basket, created = ProductsInBasket.objects.get_or_create(user=user,product_id = product_id,size_pr=product_size,color_pr=product_color, defaults ={"nmb" : nmb})
     if not created:
         print("not created")
         pr_in_basket.nmb+= float(nmb)

@@ -33,7 +33,7 @@ def account_view(request):
     
     room = RoomChat.objects.filter(Q(assistant=request.user) | Q(customer=request.user))
 
-    messages = LiveChatView.objects.filter(room = room[0])
+    # messages = LiveChatView.objects.filter(room = room[0])
 
 
     total_amount = 0

@@ -17,16 +17,6 @@ LANGUAGE_CODE = 'ru-ru'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')b_1$a+85=l2(6=ucdp!r58$z1#9_pzg6yed=za)5i!%)k)2^t'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -118,16 +108,6 @@ CART_SESSION_ID = 'cart'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'OnlineShop',
-        'USER': 'root',
-        'PASSWORD': 'sungat97',
-        'HOST':'localhost',
-
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -176,7 +156,7 @@ SITE = 1
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [ os.path.join(BASE_DIR,"static"),]
+
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
@@ -246,7 +226,7 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
+    # 'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
@@ -268,3 +248,9 @@ SIMPLE_JWT = {
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    from .prod_settings import *
