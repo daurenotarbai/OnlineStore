@@ -6,10 +6,7 @@
 {% endblock title%}
 
 {% block content%}
-<br>
-<br>
-<br>
-<br>
+<div class="free-place-d"></div>
 	<!-- breadcrumb -->
 	<div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -27,7 +24,7 @@
 
   <!-- Shoping Cart -->
   
-	<form method="POST" action="{% url 'create_order'%}" class="bg0 p-t-75 p-b-85">
+	<form method="POST" action="{% url 'create_order'%}" class="bg0 form-basket">
 		{% csrf_token %} 
 		<div class="container">
 			<div class="row">
@@ -86,24 +83,61 @@
 
 								{%endfor%}
 							</table>
+							<div class="table-shopping-cart-mobile">
+
+								{%for element in products_in_basket%}
+								<div class="table_row table-row-mobile">
+									
+									<div class="img-basket-product">	
+										<a href="delete/{{element.id}}">
+											<div data-product_id = "{{element.id}}" class="how-itemcart1">
+												<img src="{{element.product.img.url}}" alt="IMG">
+											</div>
+										</a>
+									</div>
+										
+									<div class="basket-product-desc">
+										<a style="color: #555555;" class="js-name-detail" href="/products/{{element.product.ProductName.id}}" >{{element.product.ProductName.name}}</a>
+		
+										<div class="product_price ">{{element.product.ProductName.price}}тг</div>
+										
+										<div class="wrap-num-product-mobile flex-w m-r-0">
+											<div class="product-in-basket-nmb btn-num-product-down-mobile cl8 hov-btn3 trans-04 flex-c-m">
+												<i class="fs-16 zmdi zmdi-minus"></i>
+											</div>
+
+											<input class="mtext-104 cl3 txt-center num-product" type="number" name="{{element.product.ProductName.name}}" value="{{element.nmb}}">
+
+											<div class="product-in-basket-nmb btn-num-product-up-mobile cl8 hov-btn3 trans-04 flex-c-m">
+												<i class="fs-16 zmdi zmdi-plus"></i>
+											</div>
+										</div>
+										
+										<div  class="">{{element.size_pr}}</div>
+										<div class="">{{element.color_pr}}</div>
+										<!-- <div class = "total-price-for-this-product">{{element.total_price}}тг</div>  -->
+
+									</div>
+
+								</div>	
+
+								{%endfor%}
+							</div>
 						</div>
 
 						<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
 							<div class="flex-w flex-m m-r-20 m-tb-5">
-								<input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text" name="coupon_code" placeholder="Coupon Code">
+								<input class="coupon-input stext-104 cl2 plh4 size-117-extra bor13 p-lr-20 m-r-10 m-tb-5" type="text" name="coupon_code" placeholder="Coupon Code">
 									
-								<div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
+								<div class="coupon-btn flex-c-m stext-101 cl2 size-117-btn bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
 									Apply coupon
 								</div>
 							</div>
 
-							<div class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-								Update Cart
-							</div>
 						</div>
 					</div>
 					<br><br>
-					<h6 style="font-size: 25px;" class="ltext-105 cl5 txt-center respon1">CUSTOMER INFORMATION</h6>
+					<h6 class="text-customer-inf ltext-105 cl5 txt-center">CUSTOMER INFORMATION</h6>
 					<br><br>
 					<div style="margin-left: 27px; margin-top: -36px;" class="info_user">
 						<label for="">Name:</label>
@@ -124,7 +158,7 @@
 						<label for="">Comment:</label>
 						<span>{{form.email.errors}}</span>
 						<div class="bor8 m-b-20 how-pos4-parent">
-							<textarea class ="p-l-62 p-r-30 p-t-15" placeholder="Please type some comment about your order" name="comment" cols="68" rows="5" ></textarea>
+							<textarea style="height: 70px;" class ="size-116 p-l-62 p-r-30 p-t-15" placeholder="Please type some comment about your order" name="comment" cols="68" rows="5" ></textarea>
 						</div>
 					</div>
 				</div>

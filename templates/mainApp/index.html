@@ -129,7 +129,7 @@ Index page
 
 
 
-<section class="sec-product bg0  p-b-50">
+<section class="sec-product bg0 ">
   <div class="container">
     <div class="p-b-32">
       <h6 style="font-size: 35px;" class="ltext-105 cl5 txt-center respon1">
@@ -150,7 +150,7 @@ Index page
               <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
                 <!-- Block2 -->
                 <div class="block2">
-                  <div class="block2-pic hov-img0">
+                  <div class=" block2-pic hov-img0">
                     <a href="/products/{{element.ProductName.id}}">
                       <img src="{{element.img.url}}" alt="IMG-PRODUCT">
             
@@ -185,7 +185,7 @@ Index page
             </div>
           </div>
       </div>
-<br><br><br>
+ <div class="free-place"></div>
     <div class="p-b-32">
       <h6 style="font-size: 35px;" class="ltext-105 cl5 txt-center respon1">
         TOP RATES
@@ -250,9 +250,9 @@ Index page
 
 
 <!-- Blog -->
-<section class="sec-blog bg0 p-t-60 p-b-90">
+<section class="sec-blog bg0">
   <div class="container">
-    <div class="p-b-66">
+    <div class="free-place-b">
       <h3 class="ltext-105 cl5 txt-center respon1">
         Our Blogs
       </h3>
@@ -305,7 +305,7 @@ Index page
 
 {%endfor%}
     </div>
-    <div class="flex-c-m flex-w w-full p-t-45">
+    <div class="flex-c-m flex-w w-full button-load-more">
       <a href="{%url 'blog'%}" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
         Load More
       </a>
@@ -314,7 +314,7 @@ Index page
 </section>
 
 <!-- Product -->
-<section class="bg0 p-t-23 p-b-140">
+<section class="bg0 free-place-c">
   <div class="container">
     <div class="p-b-10">
       <h3 class="ltext-103 cl5">
@@ -322,7 +322,7 @@ Index page
       </h3>
     </div>
 
-    <div class="flex-w flex-sb-m p-b-52">
+    <div class="flex-w flex-sb-m free-place-b">
       <div class="flex-w flex-l-m filter-tope-group m-tb-10">
         <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
           All Products
@@ -556,7 +556,7 @@ Index page
 
     <div class="row isotope-grid">
       {% for element in product_img_new_arrivals %}
-      <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{element.ProductName.category.CategoryName}} ">
+      <div class="product-cart col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{element.ProductName.category.CategoryName}} ">
         <!-- Block2 -->
         <div class="block2">
  
@@ -595,7 +595,7 @@ Index page
     </div>
 
     <!-- Load more -->
-    <div class="flex-c-m flex-w w-full p-t-45">
+    <div class="flex-c-m flex-w w-full free-place">
       <a href="{%url 'products'%}" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
         Load More
       </a>

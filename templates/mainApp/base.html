@@ -145,10 +145,11 @@
 		</div>
 
 		<!-- Header Mobile -->
+		<div class="header-mobile">
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->		
 			<div class="logo-mobile">
-				<a href="index.html"><img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
+				<a href="/"><img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO"></a>
 			</div>
 
 			<!-- Icon header -->
@@ -165,7 +166,10 @@
 					</i>
 				</div>
 
-				<a href="{%url 'wish_list'%}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti">
+				<a href="{%url 'wish_list'%}" class="dis-block icon-header-itemm cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+					<div class="notify" >
+						<div class="wishlist_total_number">{{wishlist_total_nmb}}</div>
+					</div>
 					<i class="zmdi zmdi-favorite-outline"></i>
 				</a>
 			</div>
@@ -176,6 +180,7 @@
 					<span class="hamburger-inner"></span>
 				</span>
 			</div>
+		</div>
 		</div>
 
 
@@ -190,55 +195,69 @@
 
 				<li>
 					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
+						<a href="{%url 'contact'%}" class="flex-c-m trans-04 p-lr-10">
 							Help & FAQs
 						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
-							My Account
+						{%if user.is_authenticated%}
+						<a href="/login" class="user_for_product_comment flex-c-m trans-04 p-lr-10">{{user.username}}</a>
+						{%else%}
+						<a href="/login" class="flex-c-m trans-04 p-lr-10">
+							My account
 						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
+						{%endif%}
+						<!-- <a href="#" class="flex-c-m trans-04 p-lr-25">
 							EN
-						</a>
-
-						<a href="#" class="flex-c-m p-lr-10 trans-04">
+						</a> -->
+<!-- 
+						<a href="#" class="flex-c-m trans-04 p-lr-25">
 							USD
-						</a>
+						</a> -->
+						{%if user.is_authenticated%}
+							<a href="{%url 'logout_user'%}" class="flex-c-m trans-04 p-lr-10">
+								Log out
+							</a>
+						{%else%}
+							<a href="{%url 'login_view'%}" class="flex-c-m trans-04 p-lr-10">
+								Sign in
+							</a>
+							<a href="{%url 'register_view'%}" class="flex-c-m trans-04 p-lr-10">
+								Sign up
+							</a>
+						{%endif%}
 					</div>
 				</li>
 			</ul>
 
 			<ul class="main-menu-m">
 				<li>
-					<a href="index.html">Home</a>
+					<a href="/">Home</a>
 					<span class="arrow-main-menu-m">
 						<i class="fa fa-angle-right" aria-hidden="true"></i>
 					</span>
 				</li>
 
 				<li>
-					<a href="product.html">Shop</a>
+					<a href="{%url 'products'%}">Shop</a>
 				</li>
 
-				<li>
+				<!-- <li>
 					<a href="shoping-cart.html" class="label1 rs1" data-label1="hot">Features</a>
+				</li> -->
+
+				<li>
+					<a href="{%url 'blog'%}">Blog</a>
 				</li>
 
 				<li>
-					<a href="blog.html">Blog</a>
+					<a href="{%url 'about_store'%}">About</a>
 				</li>
 
 				<li>
-					<a href="about.html">About</a>
-				</li>
-
-				<li>
-					<a href="contact.html">Contact</a>
+					<a href="{%url 'contact'%}">Contact</a>
 				</li>
 			</ul>
 		</div>
-<!--My Cart-->
+		<!--My Cart-->
 		
 		<div class="wrap-header-cart js-panel-cart">
 
@@ -355,9 +374,9 @@
 
 
 			<!-- Footer -->
-	<footer class="bg3 p-t-75 p-b-32">
+	<footer class="bg3 footer-main">
 		<div class="container">
-			<div class="row">
+			<div class="row footer-desktop">
 				<div class="col-sm-6 col-lg-3 p-b-50">
 					<h4 class="stext-301 cl0 p-b-30">
 						Categories
@@ -657,8 +676,12 @@ Copyright @ by QazStore
 				})
 			});
 		</script>
+
+		
 	<!--===============================================================================================-->
 		<script src="{% static 'js/main.js' %}"></script>
+		
+
 		
 </body>
 </html>

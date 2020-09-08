@@ -5,16 +5,16 @@
 Product Detail
 {% endblock title%}
 {% block content%}
-<br> <br> <br> <br>
+<div class="free-place-d"></div>
 {% for element in product_image %}
 <div class="container">
-  <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-    <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+  <div class="bread-crumb flex-w  p-lr-0-lg">
+    <a href="/" class="stext-109 cl8 hov-cl1 trans-04">
       Home
       <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
     </a>
 
-    <a href="product.html" class="stext-109 cl8 hov-cl1 trans-04">
+    <a href="{%url 'products'%}" class="stext-109 cl8 hov-cl1 trans-04">
       {{element.ProductName.category.CategoryName}}
       <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
     </a>
@@ -28,7 +28,7 @@ Product Detail
 <!-- Product Detail -->
 
 
-<section class="sec-product-detail bg0 p-t-65 p-b-60">
+<section class="sec-product-detail bg0 p-b-60">
   <div class="container">
   {% if messages %}
     <ul class="messages">
@@ -180,7 +180,7 @@ Product Detail
       </div>
     </div>
 
-    <div class="bor10 m-t-50 p-t-43 p-b-40">
+    <div class="bor10 p-t-43 p-b-40">
       <!-- Tab01 -->
       <div class="tab01">
         <!-- Nav tabs -->

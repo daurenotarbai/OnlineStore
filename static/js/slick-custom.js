@@ -94,8 +94,8 @@
               slidesToShow: 4,
               slidesToScroll: 4,
               infinite: false,
-              autoplay: false,
-              autoplaySpeed: 6000,
+              autoplay: true,
+              autoplaySpeed: 4000,
               arrows: true,
               appendArrows: $(this),
               prevArrow:'<button class="arrow-slick2 prev-slick2"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',
@@ -125,8 +125,8 @@
                 {
                   breakpoint: 576,
                   settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
+                    slidesToShow: 2,
+                    slidesToScroll: 2
                   }
                 }
               ]    
