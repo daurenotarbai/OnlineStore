@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 # Create your models here.
+from django.urls import reverse
+
 
 
 class BlogTags(models.Model):
@@ -25,8 +27,8 @@ class Blog(models.Model):
   blog_img = models.ImageField(upload_to='imagesDB')
   blog_admin = models.ForeignKey(User,null = True,on_delete= models.CASCADE)
   blog_tags = models.ManyToManyField(BlogTags)
-  # comment_number = models.IntegerField(null=True,default=0)
   is_active = models.BooleanField(default=True)
+  url = models.SlugField(max_length = 130,unique = True)
   created_time = models.DateTimeField(auto_now_add=True,auto_now=False)
   updated_time = models.DateTimeField(auto_now_add=False,auto_now=True)
 
@@ -36,22 +38,24 @@ class Blog(models.Model):
     ordering = ["-created_time"]
 
   def __str__(self):
-    return '%s %s' % (self.id, self.blog_title)
+    return '%s' % (self.blog_title)
+
+  def get_absolute_url(self):
+    return reverse("blog_detail",kwargs={"slug":self.url})
+
+  def get_review(self):
+    return self.commentblog_set.filter(parent__isnull = True)
 
 
 
   
-
-
-
-
 class CommentBlog(models.Model):
     user = models.ForeignKey(User, blank=True, null=True,on_delete= models.CASCADE)
-    article = models.ForeignKey(Blog,on_delete = models.CASCADE)
+    article = models.ForeignKey(Blog,on_delete = models.CASCADE,null=True)
     comment_text = models.TextField()
+    parent = models.ForeignKey('self',verbose_name = "Родитель",on_delete = models.CASCADE,blank = True,null =True)
     is_active = models.BooleanField(default=True)
     created_time = models.DateTimeField(auto_now_add=True, auto_now=False)
-
 
     class Meta:
         verbose_name='Комментария статьти'
@@ -60,11 +64,4 @@ class CommentBlog(models.Model):
     def __str__(self):
         return '%s %s' % (self.id, self.user)
 
-# def comment_number_post_save(sender, instance, created, **kwargs):
-    # blog_contents = Blog.objects.filter(is_active=True)
-    # for item in blog_contents:
-      # number_comment = CommentBlog.objects.filter(article__id = item.id).count()
-      # item.comment_number = number_comment
-      # item.save(force_update=True)
 
-# post_save.connect(comment_number_post_save, sender=CommentBlog)

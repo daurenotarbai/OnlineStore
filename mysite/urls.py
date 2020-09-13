@@ -48,7 +48,7 @@ urlpatterns = [
     path('auth/',include("djoser.urls.jwt")),
 
     path('contact/',ContactPageView.as_view(),name="contact"),
-    path('about/',views.about,name = "about_store"),
+    path('about/',views.AboutPageView.as_view(),name = "about_store"),
     path('check-username/',views.check_username,name = "check_username"), 
 
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -14,7 +14,7 @@ class Category(models.Model):
   is_active = models.BooleanField(default=True)
   created_time = models.DateTimeField(auto_now_add=True, auto_now=False)
   updated_time = models.DateTimeField(auto_now_add=False, auto_now=True)
-  
+
   @property
   def get_photo_url(self):
     if self.CategoryImage and hasattr(self.CategoryImage, 'url'):
@@ -87,6 +87,7 @@ class Products(models.Model):
         verbose_name='Товар'
         verbose_name_plural = 'Товары'
 
+
     def __str__(self):
         return '%s %s' % (self.id, self.name)
 
@@ -102,12 +103,12 @@ class ProductImage(models.Model):
     is_main = models.BooleanField(default=False)
     created_time = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated_time = models.DateTimeField(auto_now_add=False, auto_now=True)
-    # @property
-    # def get_photo_url(self):
-    #   if self.img and hasattr(self.img, 'url'):
-    #       return self.img.url
-    #   else:
-    #       return "/static/images/about-01.jpg"
+    @property
+    def get_photo_url(self):
+      if self.img and hasattr(self.img, 'url'):
+          return self.img.url
+      else:
+          return "/static/images/about-01.jpg"
     class Meta:
       verbose_name = 'Изображение товара'
       verbose_name_plural = 'Изображение товаров'

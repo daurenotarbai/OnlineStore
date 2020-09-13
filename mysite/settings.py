@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'Order',
     'Profile',
     'Blog',
+    'API',
     'Administrations',
     'django.contrib.auth',
     'django.contrib.contenttypes',

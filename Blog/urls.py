@@ -23,13 +23,11 @@ from Blog import views
 
 urlpatterns = [
 
-    path('',views.blog,name = "blog"),
+    path('',views.ArticleListView.as_view(),name = "blog"),
     path('search/',views.search_article,name = "search_article"),
-    path('<int:id>/',views.blog_detail,name = "blog_detail"),
+    path('<slug:slug>/',views.BlogDetailView.as_view(),name = "blog_detail"),
     path('add-comment/', views.adding_blog_comment,name="adding_blog_comment"),
     path('delete-comment/<int:id>', views.deleting_blog_comment,name="deleting_blog_comment"),
-
-
 
 ]
 

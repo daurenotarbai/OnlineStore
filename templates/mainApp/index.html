@@ -1,6 +1,6 @@
 {% extends "mainApp/base.html" %}
 {% load static %}
-
+{% load store_tags %}
 {% block title %}
 Index page
 {% endblock title%}
@@ -93,7 +93,7 @@ Index page
 <div class="sec-banner bg0 p-t-80 p-b-50">
   <div class="container">
     <div class="row">
-
+      {% get_categories as categories %}
       {% for category in categories %}
       <div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
         <!-- Block1 -->
@@ -327,7 +327,7 @@ Index page
         <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
           All Products
         </button>
-
+        
         {%for element in categories%}
         <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".{{element.CategoryName}}">
           {{element.CategoryName}}
@@ -392,19 +392,19 @@ Index page
               </li>
 
               <li class="p-b-6">
-                <a href="{%url 'sort_by_date'%}" class="filter-link stext-106 trans-04 ">
+                <a href="" class="filter-link stext-106 trans-04 ">
                   Newness
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="{%url 'sort_by_l'%}"  class="filter-link stext-106 trans-04">
+                <a href=""  class="filter-link stext-106 trans-04">
                   Price: Low to High
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="{%url 'sort_by_h'%}" class="filter-link stext-106 trans-04">
+                <a href="" class="filter-link stext-106 trans-04">
                   Price: High to Low
                 </a>
               </li>

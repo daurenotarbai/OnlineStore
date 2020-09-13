@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect,HttpResponseNotFound, JsonResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView,ListView
 from Products.models import Category,ProductImage,Products, Size_products,Color_products,CommentProduct
 from Basket.models import ProductsInBasket, ProductsInWishlist
 from Order.models import Order,ProductsInOrder
@@ -8,20 +8,20 @@ from Blog.models import Blog, BlogTags
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect,csrf_exempt
-
 from django.contrib.auth import authenticate,get_user_model,login,logout
-
 from django.shortcuts import get_list_or_404,get_object_or_404 
-
 from .models import Category
-
 from django.contrib import messages
-
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.views.generic.base import View
+from django.views.generic import ListView, DetailView
 
 
-# Create your views here.
+
+
+
+
 def index(request):
     query = request.GET.get('search-product','')
     if query:
@@ -32,7 +32,6 @@ def index(request):
       product_img_new_arrivals = product_img.order_by("-created_time")[:8]
       product_img_best_seller = ProductImage.objects.filter(is_active = True,is_main = True).order_by("-ProductName__best_seller")[:8]
       product_img_top_rate = ProductImage.objects.filter(is_active = True,is_main = True).order_by("-ProductName__avg_rating")[:8]
-      categories = Category.objects.filter(is_active = True)
       articles = Blog.objects.filter(is_active = True).order_by("-created_time")
 
 
@@ -41,8 +40,15 @@ def index(request):
 
 
 
+class ProductListView(ListView):
+  template_name = "mainApp/products.html"
+  context_object_name = "products"
+  queryset = Products.objects.filter(is_active = True)
+  paginate_by = 8
 
-    
+class FilterProductView(ProductListView):
+  queryset = Products.objects.filter(is_active = True)
+
 
 
 def search_product(request):
@@ -68,106 +74,16 @@ def search_product(request):
 
 
 
-def products(request):
-      categories = Category.objects.filter(is_active = True)
-      product_img = ProductImage.objects.filter(is_active = True, is_main = True)
-      is_wishlisted = ProductsInWishlist.objects.filter(product__ProductName__id = 21)
-      paginator = Paginator(product_img,8)
-      page_number = request.GET.get('page',1)
-      page = paginator.get_page(page_number)
-      is_paginated = page.has_other_pages()
-      if page.has_previous():
-        prev_url = '?page={}'.format(page.previous_page_number())
-      else:
-        prev_url = ''
-      if page.has_next():
-        next_url = '?page={}'.format(page.next_page_number())
-      else:
-        next_url = ''
-      context = {
-        
-        'page_object':page,
-        'categories':categories,
-        'is_paginated':is_paginated,
-        'prev_url':prev_url,
-        'next_url':next_url,
-        "is_wishlisted":is_wishlisted
-
-      }
-    
-      return render(request, "mainApp/products.html",context = context)
 
 
+  
 
 class ContactPageView(TemplateView):
   template_name = "base/contact.html"
 
 
-def about(request): 
-  return render(request, "base/about.html")
-
-
-
-
-
-def sort_by_l(request):
-  if not request.user.is_authenticated:
-    query = request.GET.get('search-product','')
-    if query:
-      product_img = ProductImage.objects.filter(Q(ProductName__name__icontains = query)|Q(ProductName__category__CategoryName__icontains = query)|Q(ProductName__description__icontains = query),is_active = True, is_main = True).order_by("ProductName__price")
-      categories = Category.objects.filter(is_active = True)
-    else:
-      product_img = ProductImage.objects.filter(is_active = True, is_main = True).order_by("ProductName__price")
-      categories = Category.objects.filter(is_active = True)
-  else:
-    query = request.GET.get('search-product','')
-    if query:
-      product_img = ProductImage.objects.filter(Q(ProductName__name__icontains = query)|Q(ProductName__category__CategoryName__icontains = query)|Q(ProductName__description__icontains = query),is_active = True, is_main = True).order_by("ProductName__price")
-      categories = Category.objects.filter(is_active = True)
-    else:
-      product_img = ProductImage.objects.filter(is_active = True, is_main = True).order_by("ProductName__price")
-      categories = Category.objects.filter(is_active = True)
-  return render(request, "mainApp/products.html",locals())
-
-def sort_by_h(request):
-  if not request.user.is_authenticated:
-    query = request.GET.get('search-product','')
-    if query:
-      product_img = ProductImage.objects.filter(Q(ProductName__name__icontains = query)|Q(ProductName__category__CategoryName__icontains = query)|Q(ProductName__description__icontains = query),is_active = True, is_main = True).order_by("ProductName__price")
-      categories = Category.objects.filter(is_active = True)
-    else:
-      product_img = ProductImage.objects.filter(is_active = True, is_main = True).order_by("-ProductName__price")
-      categories = Category.objects.filter(is_active = True)
-  else:
-    query = request.GET.get('search-product','')
-    if query:
-      product_img = ProductImage.objects.filter(Q(ProductName__name__icontains = query)|Q(ProductName__category__CategoryName__icontains = query)|Q(ProductName__description__icontains = query),is_active = True, is_main = True).order_by("ProductName__price")
-      categories = Category.objects.filter(is_active = True)
-    else:
-      product_img = ProductImage.objects.filter(is_active = True, is_main = True).order_by("-ProductName__price")
-      categories = Category.objects.filter(is_active = True)
-  return render(request, "mainApp/products.html",locals())
-
-def sort_by_date(request):
-  if not request.user.is_authenticated:
-    query = request.GET.get('search-product','')
-    if query:
-      product_img = ProductImage.objects.filter(Q(ProductName__name__icontains = query)|Q(ProductName__category__CategoryName__icontains = query)|Q(ProductName__description__icontains = query),is_active = True, is_main = True).order_by("ProductName__price")
-      categories = Category.objects.filter(is_active = True)
-    else:
-      product_img = ProductImage.objects.filter(is_active = True, is_main = True).order_by("-ProductName__created_time")
-      categories = Category.objects.filter(is_active = True)
-  else:
-    query = request.GET.get('search-product','')
-    if query:
-      product_img = ProductImage.objects.filter(Q(ProductName__name__icontains = query)|Q(ProductName__category__CategoryName__icontains = query)|Q(ProductName__description__icontains = query),is_active = True, is_main = True).order_by("ProductName__price")
-      categories = Category.objects.filter(is_active = True)
-    else:
-      product_img = ProductImage.objects.filter(is_active = True, is_main = True).order_by("-ProductName__created_time")
-      categories = Category.objects.filter(is_active = True)
-  return render(request, "mainApp/products.html",locals())
-
-
+class AboutPageView(TemplateView):
+  template_name = "base/about.html"
 
 
 
@@ -195,6 +111,7 @@ def product_detail(request, id):
 
 
 def addProductComment(request):
+  print ("on process")
   return_dict = dict()
   # session_key = request.session.session_key
   user = request.user
@@ -204,7 +121,6 @@ def addProductComment(request):
   product_id = request.POST.get("product_id")
   comment_id = request.POST.get("comment_id")
   print("product_iD",product_id)
-
 
   co = CommentProduct()
   co.comment_text = comment_req
@@ -354,39 +270,51 @@ def createProduct(request):
 
     return HttpResponseRedirect("/products/add/product/")
 
-@login_required
-def createCategory(request):
-    if request.method == "POST":
-      mid1 = request.POST.get("category_name")
-      mid2 = request.POST.get("category_season")
-      mid3 = request.FILES["category_img"]
-      category = Category(CategoryName = mid1,CategorySeason = mid2, CategoryImage = mid3)
-      category.save()
+
+from .forms import AddProductCategoryForm,AddProductSizeForm,AddProductColorForm
+
+
+class AddProductCategory(View):
+
+  def post(self,request):
+    form = AddProductCategoryForm(request.POST)
+    if form.is_valid():
+      form = form.save(commit=False)
+      img = request.FILES["CategoryImages"]
+      form.CategoryImage = img
+      form.save()
       messages.success(request, 'Category added successfully!!!')
     else:
       messages.error(request, 'Error adding new category')
-    return HttpResponseRedirect("/products/add/category/")
+    return redirect("/products/add/category/")
 
-@login_required
-def createSize(request):
-    if request.method == "POST":
-      mid1 = request.POST.get("size_name")
-      size = Size_products(size_name = mid1)
-      size.save()
+class AddProductSize(View):
+
+  def post(self,request):
+    form = AddProductSizeForm(request.POST)
+    if form.is_valid():
+      form = form.save(commit=False)
+      form.save()
       messages.success(request, 'Size added successfully!!!')
     else:
       messages.error(request, 'Error adding new size')
-    return HttpResponseRedirect("/products/add/size/")
+    return redirect("/products/add/size/")
 
-def createColor(request):
-    if request.method == "POST":
-      mid1 = request.POST.get("color_name")
-      size = Color_products(color_name = mid1)
-      size.save()
+
+
+class AddProductColor(View):
+
+  def post(self,request):
+    form = AddProductColorForm(request.POST)
+    if form.is_valid():
+      form = form.save(commit=False)
+      form.save()
       messages.success(request, 'Color added successfully!!!')
     else:
       messages.error(request, 'Error adding new color')
-    return HttpResponseRedirect("/products/add/color/")
+    return redirect("/products/add/color/")
+
+
 
 @login_required
 def createArticle(request):

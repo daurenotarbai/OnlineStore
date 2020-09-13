@@ -828,6 +828,11 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   }
 }
 @media (max-width: 991px){
+  .menu-mobile {
+    width: 100%;
+    background-color: white;
+    display: none;
+  }
   .bread-crumb{
     padding-left: 25px;
     padding-right: 15px;
@@ -907,11 +912,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 /*==================================================================
 [ Menu mobile ]*/
-.menu-mobile {
-  width: 100%;
-  background-color: white;
-  display: none;
-}
+
 
 .main-menu-m {
   padding-top: 10px;

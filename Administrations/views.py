@@ -69,7 +69,7 @@ def account_view(request):
       "users":users,
       "tasks":tasks,
       "done_tasks":done_tasks,
-      "messages":messages
+      # "messages":messages
 
     }
 

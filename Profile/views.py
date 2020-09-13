@@ -7,6 +7,18 @@ from django.views.decorators.csrf import csrf_protect,csrf_exempt
 from django.contrib.auth import login,logout,authenticate
 from Products.forms import UserLoginForm,UserRegisterForm
 from django.contrib import messages
+from django.views.generic.edit import CreateView
+
+
+# class login_view(CreateView):
+#   model= User
+#   form_class = UserLoginForm
+#   template_name = "mainApp/login.html"
+  
+#   def get_success_url(self):
+#     return reverse("/")
+
+
 
 @csrf_exempt
 def login_view(request):

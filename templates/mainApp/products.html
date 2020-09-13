@@ -1,5 +1,6 @@
 {% extends "mainApp/base.html" %}
 {% load static %}
+{% load store_tags %}
 
 {% block title %}
 Products
@@ -22,20 +23,21 @@ Products
         <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
           All Products
         </button>
-        {% for element in categories %}
-        <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".{{element.CategoryName}}">
-          {{element.CategoryName}}
+        {% get_categories as category_list %}
+        {% for category in category_list %}
+        <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".{{category.CategoryName}}">
+          {{category.CategoryName}}
         </button>
         {% endfor %}
 
       </div>
 
       <div class="flex-w flex-c-m m-tb-10">
-        <!-- <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+        <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
           <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
           <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
            Filter
-        </div> -->
+        </div>
 
         <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
           <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
@@ -71,31 +73,31 @@ Products
               </li>
 
               <li class="p-b-6">
-                <a href="#" class="filter-link stext-106 trans-04">
+                <a href="{%url 'filter_popularity'%}" class="filter-link stext-106 trans-04">
                   Popularity
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="#" class="filter-link stext-106 trans-04">
+                <a href="{%url 'filter_rating'%}" class="filter-link stext-106 trans-04">
                   Average rating
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="{%url 'sort_by_date'%}" class="filter-link stext-106 trans-04 filter-link-active">
+                <a href="{%url 'filter_newness'%}" class="filter-link stext-106 trans-04 filter-link-active">
                   Newness
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="{%url 'sort_by_l'%}" class="filter-link stext-106 trans-04">
+                <a href="{%url 'filter_price_low_to_high'%}" class="filter-link stext-106 trans-04">
                   Price: Low to High
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="{%url 'sort_by_h'%}" class="filter-link stext-106 trans-04">
+                <a href="{%url 'filter_price_high_to_low'%}" class="filter-link stext-106 trans-04">
                   Price: High to Low
                 </a>
               </li>
@@ -109,38 +111,38 @@ Products
 
             <ul>
               <li class="p-b-6">
-                <a href="#" class="filter-link stext-106 trans-04 filter-link-active">
+                <a href="{%url 'products'%}" class="filter-link stext-106 trans-04 filter-link-active">
                   All
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="#" class="filter-link stext-106 trans-04">
-                  $0.00 - $50.00
+                <a href="{%url 'filter_0to3000'%}" class="filter-link stext-106 trans-04">
+                  0.00тг - 3000.00тг
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="#" class="filter-link stext-106 trans-04">
-                  $50.00 - $100.00
+                <a href="{%url 'products'%}" class="filter-link stext-106 trans-04">
+                  3000.00тг - 6000.00тг
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="#" class="filter-link stext-106 trans-04">
-                  $100.00 - $150.00
+                <a href="{%url 'products'%}" class="filter-link stext-106 trans-04">
+                  6000.00тг - $10 000.00тг
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="#" class="filter-link stext-106 trans-04">
-                  $150.00 - $200.00
+                <a href="{%url 'products'%}" class="filter-link stext-106 trans-04">
+                  10 000.00тг - 20 000.00тг
                 </a>
               </li>
 
               <li class="p-b-6">
-                <a href="#" class="filter-link stext-106 trans-04">
-                  $200.00+
+                <a href="{%url 'products'%}" class="filter-link stext-106 trans-04">
+                  $20 000.00тг+
                 </a>
               </li>
             </ul>
@@ -246,83 +248,63 @@ Products
     </div>
 
     <div class="row isotope-grid">
-      {% for element in page_object.object_list %}
-      <div class="product-cart col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{element.ProductName.category.CategoryName}} ">
-        <!-- Block2 -->
-        <div class="block2">
- 
-          <div class="block2-pic hov-img0">
-          <a href="/products/{{element.ProductName.id}}">
-          <img src="{{element.img.url}}" alt="IMG-PRODUCT">
-
-
-            <div class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-             Quick View
+      {% for product in products %}
+        <div class="product-cart col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{product.category.CategoryName}} ">
+          <!-- Block2 -->
+          <div class="block2">
+            <div class="block2-pic hov-img0">
+            <a href="/products/{{product.id}}">
+              {%for img in product.productimage_set.all%}
+                <img src="{{img.img.url}}" alt="IMG-PRODUCT">
+              {%endfor%}
+              <div class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                Quick View
+              </div>
+            </a>
             </div>
-          </a>
-          </div>
-
-          <div class="block2-txt flex-w flex-t p-t-14">
-            <div class="block2-txt-child1 flex-col-l ">
+            <div class="block2-txt flex-w flex-t p-t-14">
+              <div class="block2-txt-child1 flex-col-l ">
               <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                {{element.ProductName.name}} 
+                {{product.name}} 
               </a>
-
               <span class="stext-105 cl3">
-                {{element.ProductName.price}} т
+                {{product.price}} т
               </span>
-
+              </div>
+              <div class="block2-txt-child2 flex-r p-t-3">
+                <a href="{%url 'wishlist_adding'%}" class="wishlist_btn btn-addwish-b2 dis-block pos-relative js-addwish-b2"  data-product_id="{{product.id}}">
+                  <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
+                  <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
+                </a>
+              </div>
             </div>
-
-            <div class="block2-txt-child2 flex-r p-t-3">
-              <a href="{%url 'wishlist_adding'%}" class="wishlist_btn btn-addwish-b2 dis-block pos-relative js-addwish-b2"  data-product_id="{{element.id}}">{%csrf_token%}
-                <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-                <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-              </a>
-            </div>
-
-
-       
-            <!-- <div class="block2-txt-child2 flex-r p-t-3">
-              <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-                <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
-              </a>
-            </div> -->
           </div>
         </div>
-      </div>
       {% endfor %}
     </div>
-<br><br>
-    <!-- Load more -->
-      {%if is_paginated%}
-        <nav aria-label="...">
-          <ul class="pagination">
-            <li class="page-item {%if not prev_url%}disabled{%endif%}">
-              <a class="page-link" href="{{prev_url}}" tabindex="-1">Previous</a>
-            </li>
+    <!-- Pagination -->
+    <ul class="pagination">
+      <li class="page-item {%if not page_obj.has_previous%}disabled{%endif%}">
+        <a class="page-link" href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% endif %}" tabindex="">Previous</a>
+      </li>
+      {% for page in page_obj.paginator.page_range %}
+        {%if page_obj.number == page%}
+          <li class="page-item active">
+            <a class="page-link" href="?page={{ page }}">{{ page }} <span class="sr-only">(current)</span></a>
+          </li>
+        {% elif page > page_obj.number|add:-3 and page < page_obj.number|add:3 %}
+          <li class="page-item ">
+            <a class="page-link" href="?page={{ page }}">{{ page }} <span class="sr-only">(current)</span></a>
+          </li>
+        {%endif%}
+      {%endfor%}
+      <li class="page-item {%if not page_obj.has_next%}disabled{%endif%}">
+        <a class="page-link" href="{%if page_obj.has_next%}?page={{ page_obj.next_page_number }}{%endif%}">Next</a>
+      </li>
+  </ul>
+  <!-- Pagination end -->
 
-            {% for page in page_object.paginator.page_range %}
-
-              {%if page_object.number == page%}
-                <li class="page-item active">
-                  <a class="page-link" href="?page={{ page }}">{{ page }} <span class="sr-only">(current)</span></a>
-                </li>
-              {% elif page > page_object.number|add:-3 and page < page_object.number|add:3 %}
-                <li class="page-item ">
-                  <a class="page-link" href="?page={{ page }}">{{ page }} <span class="sr-only">(current)</span></a>
-                </li>
-              {%endif%}
-            {% endfor %}
-            <li class="page-item {%if not next_url%}disabled{%endif%}">
-              <a class="page-link" href="{{next_url}}">Next</a>
-            </li>
-          </ul>
-        </nav>
-      {%endif%}
-
-
+    
   </div>
 </section>
 

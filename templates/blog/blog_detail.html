@@ -7,7 +7,7 @@ Blog
 
 
 {% block content %}
-{%for blog_content in blog_contents%}
+
 <div class="free-place-d"></div>
 <div class="container">
   <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -22,7 +22,7 @@ Blog
     </a>
 
     <span class="stext-109 cl4">
-      {{blog_content.blog_title}}
+      {{blog_contents.blog_title}}
     </span>
   </div>
 </div>
@@ -47,18 +47,18 @@ Blog
         <div class="p-r-45 p-r-0-lg">
           <!--  -->
           <div class="wrap-pic-w how-pos5-parent">
-            <img src="{{blog_content.blog_img.url}}" alt="IMG-BLOG">
+            <img src="{{blog_contents.blog_img.url}}" alt="IMG-BLOG">
 
             <div class="flex-col-c-m size-123 bg9 how-pos5">
               <span class="ltext-107 cl2 txt-center">
-                {{blog_content.created_time.day}}
+                {{blog_contents.created_time.day}}
               </span>
 
               <span class="stext-109 cl3 txt-center">
                 {% language 'en' %}
-                {{blog_content.created_time|date:"F"}} 
+                {{blog_contents.created_time|date:"F"}} 
               {% endlanguage %}
-              {{blog_content.created_time.year}}
+              {{blog_contents.created_time.year}}
               </span>
             </div>
           </div>
@@ -70,16 +70,16 @@ Blog
                 <span class="cl12 m-l-4 m-r-6">|</span>
               </span>
               {% language 'en' %}
-              {{blog_content.created_time|date:"F"}} 
+              {{blog_contents.created_time|date:"F"}} 
             {% endlanguage %}
-            {{blog_content.created_time.year}}
+            {{blog_contents.created_time.year}}
               <span>
                 
                 <span class="cl12 m-l-4 m-r-6">|</span>
               </span>
 
               <span>
-                {%for tag in tags_for_this_articles%}
+                {%for tag in blog_contents.blog_tags.all%}
                   {{tag.tag_name}},
                 {%endfor%}
                  
@@ -87,16 +87,16 @@ Blog
               </span>
 
               <span>
-                {{number_comment}} Comments
+                {{blog_contents.commentblog_set.all.count}} Comments
               </span>
             </span>
 
             <h4 class="ltext-109 cl2 p-b-28">
-              {{blog_content.blog_title}} 
+              {{blog_contents.blog_title}} 
             </h4>
 
             <p class="stext-117 cl6 p-b-26">
-              {{blog_content.blog_content  }} </p>
+              {{blog_contents.blog_content  }} </p>
 
           </div>
 
@@ -106,11 +106,15 @@ Blog
             </span>
 
             <div class="flex-w size-217">
-              {%for tag in tags_for_this_articles%}
+              {%for tag in blog_contents.blog_tags.all%}
               <a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
                 {{tag.tag_name}}
               </a>
               {%endfor%}
+            
+             
+            
+
             </div>
           </div>
 
@@ -125,7 +129,7 @@ Blog
 
                   <ul class="comment-blog-ul p-t-35">
                 
-                  {%for el in comment%}
+                  {%for el in blog_contents.get_review%}
 
                     <li class="comment-product-li">
                       <div class="flex-w flex-t p-b-68">
@@ -138,11 +142,11 @@ Blog
                             <span class="user_in_blog_comment_{{el.id}} mtext-107 cl2 p-r-20">{{el.user.username}} </span>
 
                             <span class="fs-15 cl11">
-                              <a class="answer_comment" style="color: #888; "data-comment_id = "{{el.id}}" href="">Answer</a> 
+                              <a class="answer_commentt" style="color: #888;" onclick="addReview('{{el.user.username}}','{{el.id}}')" data-comment_idd = "{{el.id}}" href="#formBlogComment">Answer</a> 
                             </span>
 
                             <span class="fs-18 cl11">
-                              {%if user_req == el.user%}
+                              {%if request.user == el.user%}
                               <form action="/blog/delete-comment/{{el.id}}" method="POST">
                                 {%csrf_token%}
                               <button type="submit"  class="delete-comment-for-blog fs-18 cl11" >
@@ -158,6 +162,42 @@ Blog
                           <p class="comment_text_for_blog stext-102 cl6">{{el.comment_text}}</p>
                         </div>
                       </div>
+
+                      {%for kids in el.commentblog_set.all%}
+                      <div class="flex-w flex-t p-b-68 p-l-28">
+                        <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+                          <img src="{%static 'images/avatar-01.jpg'%}" alt="AVATAR">
+                        </div>
+
+                        <div class="size-207">
+                          <div class="flex-w flex-sb-m p-b-17">
+                            <span class="user_in_blog_comment_{{el.id}} mtext-107 cl2 p-r-20">{{kids.user.username}}</span>
+
+                            <span class="fs-15 cl11">
+                              <a class="answer_commentt" style="color: #888;" onclick="addReview('{{el.user.username}}','{{el.id}}')" data-comment_idd = "{{el.id}}" href="#formBlogComment">Answer</a> 
+                            </span>
+
+                            <span class="fs-18 cl11">
+                              {%if request.user == kids.user%}
+                              <form action="/blog/delete-comment/{{kids.id}}" method="POST">
+                                {%csrf_token%}
+                              <button type="submit"  class="delete-comment-for-blog fs-18 cl11" >
+                                <i style="color: #f9ba48;" class="zmdi zmdi-delete"></i>
+                              </button>
+                          </form>
+                          {%endif%}
+                            </span>
+
+
+                          </div>
+
+                          <p class="comment_text_for_blog stext-102 cl6">{{kids.comment_text}}</p>
+                        </div>
+                      </div>
+
+                      {%endfor%}
+
+
                     </li>
                   {%endfor%}
 
@@ -168,26 +208,24 @@ Blog
 
                   
                     <!-- Add review -->
-                  <form class="adding_blog_comment w-full" action="{%url 'adding_blog_comment'%}" method="POST">
-
+                  <form id="formBlogComment" class="adding_blog_comment w-full" action="{%url 'adding_blog_comment'%}" method="POST">
 
                     {%csrf_token%}
 
                     <h5 class="mtext-108 cl2 p-b-7">
                       Add a review
                     </h5>
-
+                    <input type="hidden" class="parent_comment" name="parent" id="contactparent" value="">
                     <p class="stext-102 cl6">
                       Your email address will not be published. Required fields are marked *
                     </p>
-
-
+                    
                     <div class="row p-b-25">
                       <div class="col-12 p-b-5">
                         <label class="stext-102 cl3" for="review">Your review</label>
-                        <textarea class="review_in_blog_comment size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="blog_review" required name="blog_review"></textarea>
+                        <textarea class="review_in_blog_comment size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="blog_review" required name="comment_text"></textarea>
                       </div>
-                      <input class="blog_id_for_blog_comment" value="{{blog_content.id}}" type="number" hidden>
+                      <input class="blog_id_for_blog_comment" value="{{blog_contents.id}}" type="number" hidden>
 
                       <div class="col-sm-6 p-b-5">
                         <label class="stext-102 cl3" for="name">Name</label>
@@ -199,7 +237,7 @@ Blog
                         <input class="email_in_comment size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="text" required name="email">
                       </div>
                     </div>
-                    {%if user.is_authenticated%}
+                    {%if request.user.is_authenticated%}
                     <button type="submit" class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
                       Send
                     </button>
@@ -232,89 +270,16 @@ Blog
         </div>
       </div>
 
-      <div class="col-md-4 col-lg-3 p-b-80">
-        <div class="side-menu">
-          <form action="{%url 'search_article'%}" method="GET">
-            <div class="bor17 of-hidden pos-relative">
-              <input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="search-article" placeholder="Search">
-
-              <button class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
-                <i class="zmdi zmdi-search"></i>
-              </button>
-            </div>
-        </form>
-
-          <div class="p-t-50">
-            <h4 class="mtext-112 cl2 p-b-27">
-              Tags
-            </h4>
-
-            <div class="flex-w m-r--5">
-
-              {%for tag in blog_tags%}
-              <a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                {{tag.tag_name}}
-              </a>
-              {%endfor%}
-
-
-            </div>
-          </div>
-
-          <div class="p-t-65">
-            <h4 class="mtext-112 cl2 p-b-33">
-              Goods you may like
-            </h4>
-
-            <ul>
-              {% for product in products_may_like %}
-              <li class="flex-w flex-t p-b-30">
-                <a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
-                  <img width="90px" height="110px" src="{{product.img.url}}" alt="PRODUCT">
-                </a>
-
-                <div class="size-215 flex-col-t p-t-8">
-                  <a href="#" class="stext-116 cl8 hov-cl1 trans-04">
-                    {{product.ProductName.name}}
-                  </a>
-
-                  <span class="stext-116 cl6 p-t-20">
-                    $19.00
-                  </span>
-                </div>
-              </li>
-              {%endfor%}
-            </ul>
-          </div>
-
-          <div class="p-t-55">
-            <h4 class="mtext-112 cl2 p-b-20">
-              Archive
-            </h4>
-
-            <ul>
-
-    
-          {% for n in archive %}
-            <li class="p-b-7">
-              <a href="#" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-                <span>
-                  {{n.created_time |date:"j"}} {{n.created_time |date:"F"}} {{n.created_time.year}}
-                </span>
-                <span>
-              
-                </span>
-              </a>
-            </li>
-          {%endfor%}
-            </ul>
-          </div>
-
-
-        </div>
-      </div>
+{%include 'blog/sidebar.html'%}
     </div>
   </div>
 </section>	
-{%endfor%}
+
+
+<script>
+  function addReview(name,id){
+    document.getElementById("contactparent").value = id;
+    document.getElementById("blog_review").innerText = `@${name},`
+  }
+</script>
 {% endblock content%}

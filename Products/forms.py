@@ -7,6 +7,30 @@ from django.contrib.auth.models import User
 
 User = get_user_model()
 
+from django  import forms
+from .models import Category,Size_products,Color_products
+
+class AddProductCategoryForm(forms.ModelForm):
+
+  class Meta:
+    model = Category 
+    fields = ("CategoryName","CategorySeason")
+
+class AddProductSizeForm(forms.ModelForm):
+
+  class Meta:
+    model = Size_products 
+    fields = ("size_name",)
+
+class AddProductColorForm(forms.ModelForm):
+
+  class Meta:
+    model = Color_products 
+    fields = ("color_name",)
+
+
+
+
 class AdminLoginForm(forms.Form):
   username = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control","placeholder":"Username"}))
   password = forms.CharField(widget = forms.PasswordInput(attrs={"class":"form-control","placeholder":"Password"}))
