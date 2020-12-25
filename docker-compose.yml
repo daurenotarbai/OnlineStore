@@ -1,0 +1,28 @@
+version: '3.7'
+
+services: 
+  onlinestore_db:
+    image: postgres:12
+    volumes: 
+      - pg_data:/var/lib/postgresql/data/
+    environment: 
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
+      POSTGRES_DB : postgres
+  django:
+    container_name: onlinestore_image
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: bash -c "python /usr/src/onlinestore/manage.py migrate --noinput && 
+             python /usr/src/onlinestore/manage.py runserver 0.0.0.0:8000"
+    volumes: 
+      - .:/usr/src/onlinestore
+
+    ports: 
+      - 8000:8000
+
+    depends_on: 
+      - onlinestore_db 
+volumes: 
+  pg_data:

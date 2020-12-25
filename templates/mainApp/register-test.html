@@ -1,0 +1,37 @@
+{% extends "mainApp/base.html" %}
+{% load static %}
+
+{% block title %}
+Register page
+{% endblock title%}
+
+
+{% block content %}
+
+  
+
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url({%static 'images/bg-01.jpg'%});">
+		<h2 class="ltext-105 cl0 txt-center">
+      Register-test
+		</h2>
+	</section>	
+
+
+	<!-- Content page -->
+	<section>
+		<form action="{%url 'check_username'%}" method="GET" >
+	
+			<div class="bor8 m-b-20 how-pos4-parent">
+				<input type="text" placeholder="username" name="user_name" id="username_input">
+			</div>
+	
+	
+			<input type="submit" id="check_name" placeholder="saca">
+
+		</form>
+
+	</section>
+
+{% endblock content%}
+

@@ -1,0 +1,95 @@
+{% extends "mainApp/base.html" %}
+{% load static %}
+
+{% block title %}
+Login Page
+{% endblock title%}
+
+
+{% block content %}
+
+  
+
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url({%static 'images/bg-01.jpg'%});">
+		<h2 class="ltext-105 cl0 txt-center">
+			Task 1
+		</h2>
+	</section>	
+
+
+	<!-- Content page -->
+	<section class="bg0 p-t-104 p-b-116">
+		<div class="container">
+			<div class="flex-w flex-tr">
+				<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
+					<form class="task1_form" method="POST" action="{%url 'task1_action'%}" >
+
+						<h4 class="mtext-105 cl2 txt-center p-b-30">
+							Task1
+						</h4>
+
+						{% csrf_token %}
+
+						<div class="bor8 m-b-20 how-pos4-parent">
+							<input class="number1 stext-111 cl2 plh3 size-116 p-l-62 p-r-30" name="number1" type="number" placeholder="number1">
+						</div>
+						<div class="bor8 m-b-20 how-pos4-parent">
+							<input class="number2 stext-111 cl2 plh3 size-116 p-l-62 p-r-30" name="number2" type="number" placeholder="number2">
+						</div>
+
+						<h2>SUM: <span class="summa"></span></h2>
+						<br>
+						<h4 class="mtext-105 cl2 txt-center p-b-30">
+							Task2
+						</h4>
+						<div class=" bor8 m-b-20 how-pos4-parent">
+							<input class="date stext-111 cl2 plh3 size-116 p-l-62 p-r-30" name="date" type="date" placeholder="date">
+						</div>
+						<h2>Age: <span class="age"></span></h2>
+						<br>
+						<h4 class="mtext-105 cl2 txt-center p-b-30">
+							Task3
+						</h4>
+						MEN	<input class="gender stext-50 cl2 plh3 size-50 p-l-62 p-r-30" name="gender" type="checkbox">
+						<br>
+						WOMEN	<input class="gender stext-50 cl2 plh3 size-50 p-l-62 p-r-30" name="gender" type="checkbox">
+						<br>
+						<div class=" bor8 m-b-20 how-pos4-parent">
+							<input class="height stext-111 cl2 plh3 size-116 p-l-62 p-r-30" name="height" type="number" placeholder="height">
+						</div>
+						<h2>IDEAL Weight: <span class="ideal_weight"></span></h2>
+						<br>
+						<h4 class="mtext-105 cl2 txt-center p-b-30">
+							Task4
+						</h4>
+						<div class=" bor8 m-b-20 how-pos4-parent">
+							<input class="fio stext-111 cl2 plh3 size-116 p-l-62 p-r-30" name="fio" type="text" placeholder="FIO">
+						</div>
+						<div class=" bor8 m-b-20 how-pos4-parent">
+							<input class="email stext-111 cl2 plh3 size-116 p-l-62 p-r-30" name="email" type="email" placeholder="email">
+						</div>
+						<div class=" bor8 m-b-20 how-pos4-parent">
+							<input class="phone stext-111 cl2 plh3 size-116 p-l-62 p-r-30" name="phone" type="tel" placeholder="phone">
+						</div>
+						<h2>MESSAGE: <span class="message"></span></h2>
+						<br>
+
+	
+
+
+						<button name="sub" type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+							Task 1
+						</button>
+						<br>
+						<br>
+					</form>
+				</div>
+
+
+			</div>
+		</div>
+	</section>
+
+{% endblock content%}
+
