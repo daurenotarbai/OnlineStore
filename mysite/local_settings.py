@@ -14,12 +14,12 @@ ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'onlinestore_db',
         'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST':'onlinestore_db',
-        'PORT':'5432',
+        'PASSWORD': 'postgres123',
+        'HOST': 'localhost',
+        'PORT': '5432',
 
     }
 }

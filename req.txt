@@ -14,7 +14,7 @@ django-summernote==0.8.11.6
 django-templated-mail==1.1.1
 djangorestframework==3.11.1
 djangorestframework-jsonapi==3.2.0
-djangorestframework-simplejwt==4.4.0
+djangorestframework-simplejwt==4.5.0
 djoser==2.0.3
 html5lib==1.0.1
 idna==2.8
@@ -26,7 +26,8 @@ packaging==20.3
 pep517==0.8.2
 Pillow==7.2.0
 progress==1.5
-psycopg2==2.8.5
+# psycopg2==2.8.5 # for windows
+psycopg2-binary==2.8.6
 PyJWT==1.7.1
 pyparsing==2.4.6
 pytoml==0.1.21
